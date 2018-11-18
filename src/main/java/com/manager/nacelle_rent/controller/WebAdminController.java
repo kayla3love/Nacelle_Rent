@@ -23,6 +23,6 @@ public class WebAdminController {
             System.out.print(ex);
             return "wrong";
         }
-        
+
     }
 }
