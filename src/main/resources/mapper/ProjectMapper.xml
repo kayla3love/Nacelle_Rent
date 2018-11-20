@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manager.nacelle_rent.dao.ProjectMapper">
+    <resultMap id="projectResultMap" type="com.manager.nacelle_rent.entity.Project">
+        <result property="projectId" column="project_id" />
+        <result property="projectState" column="project_state" />
+        <result property="projectStart" column="project_start" />
+        <result property="projectContactUrl" column="project_contact_url" />
+        <result property="projectCertUrl" column="project_cert_url" />
+        <result property="projectEnd" column="project_end" />
+    </resultMap>
+
+    <select id="getProject" resultMap="projectResultMap">
+        select * from project_info
+    </select>
+</mapper>
