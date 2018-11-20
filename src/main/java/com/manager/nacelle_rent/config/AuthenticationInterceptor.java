@@ -1,11 +1,10 @@
 package com.manager.nacelle_rent.config;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.manager.nacelle_rent.entity.WebAdmin;
+import com.manager.nacelle_rent.PassToken;
 import com.manager.nacelle_rent.service.WebAdminService;
 import com.manager.nacelle_rent.utils.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,29 +16,31 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private WebAdminService webAdminService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-        String s = request.getMethod();
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String origin = request.getHeader("origin");
-        if (s.equals("OPTIONS") || s.equals("POST") || s.equals("GET")) {
-            response.setHeader("Access-Control-Allow-Credentials", "true");
-            response.setHeader("Access-Control-Allow-Origin", origin);
-            response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Origin", origin);
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        if(!(handler instanceof HandlerMethod)){
             return true;
         }
-//        // 获取 token 中的 user id
-//        String adminId;
-//        try {
-//            adminId = JWT.decode(token).getAudience().get(0);
-//        } catch (JWTDecodeException j) {
-//            throw new RuntimeException("401");
-//        }
-//        WebAdmin admin = webAdminService.webLoad(adminId);  //根据id和当前角色取数据库里查找
-//        if (admin == null) {
-//            response.sendRedirect("/");
-//            return false;
-//        }else{
-//            // 验证 token，去数据库查找
-//        }
-       return true;
+        HandlerMethod handlerMethod=(HandlerMethod)handler;
+        Method method=handlerMethod.getMethod();
+        //检查是否有passtoken注释，有则跳过认证
+        if (method.isAnnotationPresent(PassToken.class)) {
+            PassToken passToken = method.getAnnotation(PassToken.class);
+            if (passToken.required()) {
+                return true;
+            }
+        }
+        String token = CookieUtil.getCookie(request,"token");
+        String webAdminId = request.getParameter("webAdminId");
+        if (token == null) {
+            throw new RuntimeException("401");
+        }
+        if(!token.equals(webAdminService.webLoad(webAdminId).getWebAdminToken())){
+            throw new RuntimeException("401");
+        }
+        return true;
     }
 }

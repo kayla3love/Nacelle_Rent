@@ -4,7 +4,6 @@ package com.manager.nacelle_rent.dao;
 import com.manager.nacelle_rent.entity.WebAdmin;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.dao.DataAccessException;
 
 @Mapper
 public interface WebAdminMapper {
