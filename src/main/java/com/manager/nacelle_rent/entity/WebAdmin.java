@@ -3,7 +3,8 @@ package com.manager.nacelle_rent.entity;
 public class WebAdmin {
     private String webAdminId;
     private String webAdminPassword;
-    private int webAdminFlag;
+    private String webAdminToken;
+    private String webAdminFlag;
 
     public String getWebAdminId() {
         return webAdminId;
@@ -21,11 +22,19 @@ public class WebAdmin {
         this.webAdminPassword = webAdminPassword;
     }
 
-    public int getWebAdminFlag() {
+    public String getWebAdminToken() {
+        return webAdminToken;
+    }
+
+    public void setWebAdminToken(String webAdminToken) {
+        this.webAdminToken = webAdminToken;
+    }
+
+    public String getGetWebAdminFlag() {
         return webAdminFlag;
     }
 
-    public void setWebAdminFlag(int webAdminFlag) {
-        this.webAdminFlag = webAdminFlag;
+    public void setWebAdminFlag(String getWebAdminFlag) {
+        this.webAdminFlag = getWebAdminFlag;
     }
 }

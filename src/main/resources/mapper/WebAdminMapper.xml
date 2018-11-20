@@ -7,11 +7,18 @@
         <result property="webAdminId" column="web_admin_id" />
         <result property="webAdminPassword" column="web_admin_password" />
         <result property="webAdminFlag" column="web_admin_flag" />
+        <result property="webAdminToken" column="web_admin_token" />
     </resultMap>
 
-    <select id="getWebAdminById" parameterType="String" resultMap="webAdminResultMap">
-        select web_admin_password
+    <select id="getWebAdminById" resultMap="webAdminResultMap">
+        select web_admin_id, web_admin_password, web_admin_flag, web_admin_token
         from webadmin_info
         WHERE  web_admin_id= #{webAdminId}
     </select>
+
+    <insert id="addToken" parameterType="String">
+        UPDATE webadmin_info
+        SET web_admin_token = #{webAdminToken}
+        WHERE  web_admin_id= #{webAdminId}
+    </insert>
 </mapper>

@@ -11,8 +11,17 @@ public class WebAdminServiceImpl implements WebAdminService {
     @Autowired
     private WebAdminMapper webAdminMapper;
     @Override
-    public boolean webLoad(WebAdmin webAdmin) {
-        String correctPassword = webAdminMapper.getWebAdminById(webAdmin.getWebAdminId()).getWebAdminPassword() ;
-        return (correctPassword.equals(webAdmin.getWebAdminPassword()));
+        public WebAdmin webLoad(String webAdminId) {
+            return webAdminMapper.getWebAdminById(webAdminId);
+    }
+    @Override
+    public boolean addToken(String token, String webAdminId){
+        try{
+            webAdminMapper.addToken(token,webAdminId);
+            return true;
+        }catch (Exception ex){
+            System.out.print(ex.toString());
+            return false;
+        }
     }
 }
