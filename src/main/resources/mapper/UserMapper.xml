@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manager.nacelle_rent.dao.UserMapper">
+    <resultMap id="userResultMap" type="com.manager.nacelle_rent.entity.User">
+        <result property="userId" column="user_id" />
+        <result property="userPassword" column="user_password" />
+        <result property="userRole" column="role_id" />
+        <result property="userPerm" column="perm_id" />
+        <result property="userToken" column="user_token" />
+        <result property="userName" column="user_name" />
+        <result property="userPhone" column="user_phone" />
+        <result property="userImage" column="user_image" />
+    </resultMap>
+
+    <select id="getUserById" resultMap="userResultMap">
+        SELECT user_id, user_password, role_id,perm_id,user_token
+        FROM user_info
+        WHERE  user_id= #{userId}
+    </select>
+
+    <insert id="addToken" parameterType="String">
+        UPDATE user_info
+        SET user_token = #{userToken}
+        WHERE  user_id= #{userId}
+    </insert>
+
+    <select id="getAllAreaAdmin" resultMap="userResultMap">
+        SELECT user_id, user_name
+        FROM user_info
+        WHERE role_id = "areaAdmin"
+    </select>
+
+    <insert id="registerUser" parameterType="com.manager.nacelle_rent.entity.User">
+        INSERT INTO
+        user_info(user_id, user_name, user_password, role_id, user_phone, user_image)
+        VALUES (#{userId}, #{userName}, #{userPassword}, #{userRole}, #{userPhone}, #{userImage})
+    </insert>
+
+    <select id="getRegisterUnChecked" resultMap="userResultMap">
+        SELECT uesr_id, user_name, user_phone, user_image
+        FROM user_info
+        WHERE isChecked = 0
+    </select>
+
+    <select id="getRegisterUnCheckedNum" resultType="int">
+        SELECT COUNT(*) AS num
+        FROM user_info
+        WHERE isChecked = 0;
+    </select>
+</mapper>
