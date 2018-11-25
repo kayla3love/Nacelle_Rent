@@ -12,25 +12,27 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
-@Controller
+@RestController
 public class UserController {
     @Autowired
     private UserService userService;
 
     //注册，不需要进行身份验证
     @PostMapping("/checkRegister")
-    public @ResponseBody JSONObject pushToWeb(@RequestBody User user) {
+    public JSONObject pushToWeb(@RequestBody User user) {
         JSONObject jsonObject = new JSONObject();
+        //将信息插入数据库
         int resultFlag = userService.registerUser(user);
+        String userString = User.userToJson(user);
         if(resultFlag == 0) {
             //回复客户端已经有相同的id
             jsonObject.put("message","exist");
         }else if(resultFlag == 1){
             try {
-                WebSocketServer.sendInfo("newRegister","superWebAdmin");
+                //通知前端更新
+                WebSocketServer.sendInfo(userString,"superWebAdmin");
                 //回复客户端已提交申请请等待
                 jsonObject.put("message","success");
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -42,7 +44,7 @@ public class UserController {
 
     //超级管理员获取所有区域管理员的信息
     @GetMapping("/getAreaList")
-    public @ResponseBody JSONObject getAreaAdmin(@RequestParam String userId, HttpServletRequest request){
+    public JSONObject getAreaAdmin(@RequestParam String userId, HttpServletRequest request){
         JSONObject jsonObject=new JSONObject();
         String password = CookieUtil.getCookie(request, "token");
         int flag = UserCheckUtil.checkUser(userId,password,"superWebAdmin");
@@ -56,8 +58,8 @@ public class UserController {
     }
 
     //获取所有没有审核的注册数目
-    @GetMapping("/getUncheckedNum")
-    public @ResponseBody JSONObject getUnCheckedNum(@RequestParam String userId, HttpServletRequest request){
+    @GetMapping("/getUnchecked")
+    public JSONObject getUnCheckedNum(@RequestParam String userId, HttpServletRequest request){
         JSONObject jsonObject=new JSONObject();
 
         //进行身份验证，只能通过cookie认证
@@ -65,8 +67,10 @@ public class UserController {
         int flag = UserCheckUtil.checkUser(userId, password, "superWebAdmin");
         if(flag == 1){
             int unCheckedNum = userService.getRegisterUnCheckedNum();
+            List<User> unCheckedArray = userService.getRegisterUnChecked();
             jsonObject.put("isAllowed",true);
-            jsonObject.put("unChecked",unCheckedNum);
+            jsonObject.put("unCheckedNum",unCheckedNum);
+            jsonObject.put("unCheckedArray", unCheckedArray);
         }else{
             jsonObject.put("isAllowed",false);
         }

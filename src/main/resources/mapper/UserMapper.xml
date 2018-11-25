@@ -12,6 +12,7 @@
         <result property="userName" column="user_name" />
         <result property="userPhone" column="user_phone" />
         <result property="userImage" column="user_image" />
+        <result property="isChecked" column="isChecked" />
     </resultMap>
 
     <select id="getUserById" resultMap="userResultMap">
@@ -20,11 +21,11 @@
         WHERE  user_id= #{userId}
     </select>
 
-    <insert id="addToken" parameterType="String">
+    <update id="addToken" parameterType="String">
         UPDATE user_info
         SET user_token = #{userToken}
         WHERE  user_id= #{userId}
-    </insert>
+    </update>
 
     <select id="getAllAreaAdmin" resultMap="userResultMap">
         SELECT user_id, user_name
@@ -39,7 +40,7 @@
     </insert>
 
     <select id="getRegisterUnChecked" resultMap="userResultMap">
-        SELECT uesr_id, user_name, user_phone, user_image
+        SELECT user_id, user_name, user_phone, user_image
         FROM user_info
         WHERE isChecked = 0
     </select>
@@ -49,4 +50,15 @@
         FROM user_info
         WHERE isChecked = 0;
     </select>
+
+    <delete id="deleteRegister" parameterType="String">
+        DELETE FROM user_info
+        WHERE user_id = #{userId}
+    </delete>
+
+    <update id="updateRegisterState" parameterType="String">
+        UPDATE user_info
+        SET isChecked = 1
+        WHERE  user_id= #{userId}
+    </update>
 </mapper>

@@ -2,6 +2,8 @@ package com.manager.nacelle_rent.config;
 
 import com.manager.nacelle_rent.service.UserService;
 import org.apache.shiro.web.servlet.AdviceFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletRequest;
@@ -9,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShiroLoginFilter  extends AdviceFilter {
+public class ShiroLoginFilter extends AdviceFilter {
     @Autowired
     private UserService userService;
 

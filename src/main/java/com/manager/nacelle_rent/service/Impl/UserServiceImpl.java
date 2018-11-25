@@ -17,9 +17,9 @@ public class UserServiceImpl implements UserService {
             return userMapper.getUserById(webAdminId);
     }
     @Override
-    public boolean addToken(String token, String webAdminId){
+    public boolean addToken(String token, String userId){
         try{
-            userMapper.addToken(token,webAdminId);
+            userMapper.addToken(token,userId);
             return true;
         }catch (Exception ex){
             System.out.print(ex.toString());
@@ -48,9 +48,21 @@ public class UserServiceImpl implements UserService {
     public List<User> getRegisterUnChecked(){
         return userMapper.getRegisterUnChecked();
     }
-
     @Override
     public int getRegisterUnCheckedNum(){
         return userMapper.getRegisterUnCheckedNum();
+    }
+    @Override
+    public boolean handleRegister(String userId, String handleResult){
+        try{
+            if(handleResult.equals("refuse")){
+                userMapper.deleteRegister(userId);
+            }else if(handleResult.equals("pass")){
+                userMapper.updateRegisterState(userId);
+            }
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
     }
 }

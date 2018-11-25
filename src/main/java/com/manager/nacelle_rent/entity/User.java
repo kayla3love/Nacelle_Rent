@@ -12,7 +12,8 @@ public class User {
     private String userPerm;  //用户的权限
     private String userPhone;
     private String userImage;
-    public String userToJson(User user){
+    private boolean isChecked;
+    public static String userToJson(User user){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userId",user.getUserId());
         jsonObject.put("userName", user.getUserName());
@@ -84,5 +85,13 @@ public class User {
 
     public void setUserImage(String userImage) {
         this.userImage = userImage;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

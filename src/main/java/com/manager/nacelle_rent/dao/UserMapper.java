@@ -27,4 +27,8 @@ public interface UserMapper {
 
     //获得所有尚未经审核的账号数目
     int getRegisterUnCheckedNum();
+
+    //根据WEB返回结果处理注册审核
+    void deleteRegister(String userId);
+    void updateRegisterState(String userId);
 }
