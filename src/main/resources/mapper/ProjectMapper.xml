@@ -5,14 +5,38 @@
 <mapper namespace="com.manager.nacelle_rent.dao.ProjectMapper">
     <resultMap id="projectResultMap" type="com.manager.nacelle_rent.entity.Project">
         <result property="projectId" column="project_id" />
+        <result property="projectName" column="project_name" />
         <result property="projectState" column="project_state" />
         <result property="projectStart" column="project_start" />
+        <result property="projectEnd" column="project_end" />
         <result property="projectContactUrl" column="project_contact_url" />
         <result property="projectCertUrl" column="project_cert_url" />
-        <result property="projectEnd" column="project_end" />
+        <result property="projectId" column="project_id"/>
+        <result property="adminAreaId" column="admin_area_id" />
+        <result property="adminRentId" column="admin_rent_id" />
+        <result property="boxList" column="boxList" />
+        <result property="projectBuilders" column="projectBuilders" />
     </resultMap>
-
-    <select id="getProject" resultMap="projectResultMap">
-        select * from project_info
+    <select id="getProjectList" resultMap="projectResultMap">
+        SELECT project_id, project_name, project_state, project_start, project_end
+        FROM   project_info
     </select>
+
+    <select id="getProjectDetail" resultMap="projectResultMap" parameterType="String">
+        SELECT *
+        FROM project_info
+        WHERE  project_id= #{projectId}
+    </select>
+
+    <select id="getProjectById" resultMap="projectResultMap" parameterType="String">
+        SELECT project_id,admin_area_id
+        FROM project_info
+        WHERE  project_id= #{projectId}
+    </select>
+
+    <insert id="createProject" parameterType="com.manager.nacelle_rent.entity.Project">
+        INSERT INTO
+        project_info(project_id,admin_area_id,project_contact_url)
+        VALUES (#{projectId},#{adminAreaId}, #{projectContactUrl})
+    </insert>
 </mapper>

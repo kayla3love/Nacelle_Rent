@@ -1,25 +1,103 @@
 package com.manager.nacelle_rent.entity;
 
 public class Project {
-    //项目状态
     private String projectId;
+    private String projectName;
     private String projectState;
     private String projectStart;
-    private String projectContactUrl;
-    private String projectCertUrl;
     private String projectEnd;
+    private String projectContactUrl; //项目合同Url
+    private String projectCertUrl;    //项目证书Url
+    private String adminAreaId;
+    private String adminRentId;
+    private String boxList;
+    private String projectBuilders;
 
-    //获取项目状态函数
-    public String getProjectId(){return projectId;}
+    public String getAdminAreaId() {
+        return adminAreaId;
+    }
 
-    public String getProjectState(){return projectState;}
+    public void setAdminAreaId(String adminAreaId) {
+        this.adminAreaId = adminAreaId;
+    }
 
-    public String getProjectStart(){return projectStart;}
+    public String getAdminRentId() {
+        return adminRentId;
+    }
 
-    public String getProjectContactUrl(){return projectContactUrl;}
+    public void setAdminRentId(String adminRentId) {
+        this.adminRentId = adminRentId;
+    }
 
-    public String getProjectCertUrl(){return projectCertUrl;}
+    public String getProjectId() {
+        return projectId;
+    }
 
-    public String getProjectEnd(){return projectEnd;}
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
 
+    public String getProjectState() {
+        return projectState;
+    }
+
+    public void setProjectState(String projectState) {
+        this.projectState = projectState;
+    }
+
+    public String getProjectStart() {
+        return projectStart;
+    }
+
+    public void setProjectStart(String projectStart) {
+        this.projectStart = projectStart;
+    }
+
+    public String getProjectEnd() {
+        return projectEnd;
+    }
+
+    public void setProjectEnd(String projectEnd) {
+        this.projectEnd = projectEnd;
+    }
+
+    public String getProjectContactUrl() {
+        return projectContactUrl;
+    }
+
+    public void setProjectContactUrl(String projectContactUrl) {
+        this.projectContactUrl = projectContactUrl;
+    }
+
+    public String getProjectCertUrl() {
+        return projectCertUrl;
+    }
+
+    public void setProjectCertUrl(String projectCertUrl) {
+        this.projectCertUrl = projectCertUrl;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getBoxList() {
+        return boxList;
+    }
+
+    public void setBoxList(String boxList) {
+        this.boxList = boxList;
+    }
+
+    public String getProjectBuilders() {
+        return projectBuilders;
+    }
+
+    public void setProjectBuilders(String projectBuilders) {
+        this.projectBuilders = projectBuilders;
+    }
 }
